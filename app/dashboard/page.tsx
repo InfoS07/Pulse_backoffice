@@ -45,7 +45,7 @@ const Dashboard = () => {
       {/* Sidebar */}
       <div className="w-1/6 bg-gray-900 p-6 flex flex-col justify-between">
         <div>
-          <h2 className="text-xl font-bold mb-4">Ca pulse ici</h2>
+          <h2 className="text-xl font-bold mb-4">Ca pulse ici ou quoi</h2>
           <ul className="space-y-2">
             {/* Boutons de la sidebar */}
             <li>

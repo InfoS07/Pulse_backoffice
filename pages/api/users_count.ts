@@ -1,16 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getUsers, getUsersCount } from '@/utils/supabase/users'; // Assurez-vous du bon chemin
+import { getUsersCount } from '@/utils/supabase/users'; // Assurez-vous du bon chemin
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('Handling API request:', req.method, req.url);
 
   if (req.method === 'GET') {
     try {
-      const users= await getUsers();
-      if (users) {
-        const count = users; // Assurez-vous que cette ligne est correcte selon la structure de vos données
-        console.log('User count:', users);
-        res.status(200).json({ users });
+      const usersCount = await getUsersCount();
+      if (usersCount) {
+        const count = usersCount[0].count; // Assurez-vous que cette ligne est correcte selon la structure de vos données
+        console.log('User count:', count);
+        res.status(200).json({ count });
       } else {
         res.status(500).json({ error: 'Failed to get user count' });
       }

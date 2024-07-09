@@ -29,6 +29,5 @@ export const getUsersCount = async () => {
       console.error(error);
       return 0;
     }
-    console.log("fin de fonction")
     return data;
   };
