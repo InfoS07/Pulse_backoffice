@@ -6,9 +6,12 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
     "autoprefixer": "10.4.17",
+    "axios": "^1.7.2",
     "geist": "^1.2.1",
     "next": "latest",
     "postcss": "8.4.33",
