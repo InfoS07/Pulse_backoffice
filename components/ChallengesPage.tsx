@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from '../styles/ChallengesPage.module.css';
+import styles from '../styles/DarkTheme.module.css'; // Assurez-vous d'avoir le bon chemin vers vos styles
 
 interface Challenge {
   id: number;
@@ -19,9 +19,11 @@ interface Challenge {
 
 const ChallengesPage: React.FC = () => {
   const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [filteredChallenges, setFilteredChallenges] = useState<Challenge[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [newChallenge, setNewChallenge] = useState<Partial<Challenge>>({
     name: '',
     description: '',
@@ -40,17 +42,14 @@ const ChallengesPage: React.FC = () => {
     const fetchChallenges = async () => {
       try {
         const response = await axios.get('/api/challenges');
-        console.log('API Response:', response.data);
-
         if (response.data && Array.isArray(response.data.challenges)) {
           setChallenges(response.data.challenges);
+          setFilteredChallenges(response.data.challenges);
         } else {
           setError('Format de réponse invalide');
-          console.error('Invalid response format:', response.data);
         }
       } catch (error) {
         setError('Échec de la récupération des challenges');
-        console.error('Failed to fetch challenges:', error);
       } finally {
         setLoading(false);
       }
@@ -59,15 +58,24 @@ const ChallengesPage: React.FC = () => {
     fetchChallenges();
   }, []);
 
+  useEffect(() => {
+    const results = challenges.filter(challenge =>
+      challenge.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredChallenges(results);
+  }, [searchTerm, challenges]);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.post('/api/challenges', newChallenge);
-      console.log('New challenge added:', response.data);
-
-      // Actualiser la liste des challenges après l'ajout
       const updatedChallenges = [...challenges, response.data];
       setChallenges(updatedChallenges);
+      setFilteredChallenges(updatedChallenges);
       setShowForm(false);
       setNewChallenge({
         name: '',
@@ -96,101 +104,104 @@ const ChallengesPage: React.FC = () => {
   }
 
   return (
+    <div>
+      <h1 className={styles.mainTitle}>Les Challenges</h1>
     <div className={styles.container}>
-      <h1 className={styles.title}>Challenges</h1>
-      <button className={styles.addButton} onClick={() => setShowForm(true)}>Ajouter</button>
+      <div className={styles.header}>
+        <input
+          type="text"
+          placeholder="Rechercher par nom"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className={styles.searchBar}
+        />
+        <button className={styles.addButton} onClick={() => setShowForm(true)}>Ajouter</button>
+      </div>
 
       {showForm && (
         <form className={styles.form} onSubmit={handleFormSubmit}>
-          <label>
+          <label className={styles.formGroup}>
             Nom:
             <input
               type="text"
+              className={styles.input}
               value={newChallenge.name}
               onChange={(e) => setNewChallenge({ ...newChallenge, name: e.target.value })}
               required
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Description:
             <textarea
+              className={styles.textarea}
               value={newChallenge.description}
               onChange={(e) => setNewChallenge({ ...newChallenge, description: e.target.value })}
               required
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Photo (URL):
             <input
               type="text"
+              className={styles.input}
               value={newChallenge.photo}
               onChange={(e) => setNewChallenge({ ...newChallenge, photo: e.target.value })}
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Points:
             <input
               type="text"
+              className={styles.input}
               value={newChallenge.points}
               onChange={(e) => setNewChallenge({ ...newChallenge, points: e.target.value })}
               required
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Exercice ID:
             <input
               type="number"
+              className={styles.input}
               value={newChallenge.exercice_id}
               onChange={(e) => setNewChallenge({ ...newChallenge, exercice_id: parseInt(e.target.value) })}
               required
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Date de début:
             <input
               type="date"
+              className={styles.input}
               value={newChallenge.start_at}
               onChange={(e) => setNewChallenge({ ...newChallenge, start_at: e.target.value })}
               required
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Date de fin:
             <input
               type="date"
+              className={styles.input}
               value={newChallenge.end_at}
               onChange={(e) => setNewChallenge({ ...newChallenge, end_at: e.target.value })}
               required
             />
           </label>
-          <label>
+          <label className={styles.formGroup}>
             Type:
             <input
               type="text"
+              className={styles.input}
               value={newChallenge.type}
               onChange={(e) => setNewChallenge({ ...newChallenge, type: e.target.value })}
               required
             />
           </label>
-          <label>
-            Gagnants:
-            <input
-              type="text"
-              value={newChallenge.achievers}
-              onChange={(e) => setNewChallenge({ ...newChallenge, achievers: e.target.value })}
-            />
-          </label>
-          <label>
-            Participants:
-            <input
-              type="text"
-              value={newChallenge.participants}
-              onChange={(e) => setNewChallenge({ ...newChallenge, participants: e.target.value })}
-            />
-          </label>
-
-          <button type="submit">Ajouter</button>
-          <button type="button" onClick={() => setShowForm(false)}>Annuler</button>
+          <div className={styles.buttonGroup}>
+            <button type="submit" className={styles.button}>Ajouter</button>
+            <button type="button" className={styles.button} onClick={() => setShowForm(false)}>Annuler</button>
+          </div>
         </form>
       )}
 
@@ -212,7 +223,7 @@ const ChallengesPage: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {challenges.map((challenge) => (
+          {filteredChallenges.map((challenge) => (
             <tr key={challenge.id} className={styles.row}>
               <td>{challenge.id}</td>
               <td>{challenge.name}</td>
@@ -237,6 +248,8 @@ const ChallengesPage: React.FC = () => {
         </tbody>
       </table>
     </div>
+    </div>
+
   );
 };
 

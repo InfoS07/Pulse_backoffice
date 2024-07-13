@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getChallenges, addChallenge } from '@/utils/supabase/challenges'; // Assurez-vous du bon chemin
+import { getChallengesByInvitedUserId } from '@/utils/supabase/challenges'; // Assurez-vous du bon chemin
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('Handling API request:', req.method, req.url);
 
   if (req.method === 'GET') {
     try {
-      const challenges= await getChallenges();
+      const challenges= await getChallengesByInvitedUserId(req.query.id as string);
       if (challenges) {
         const count = challenges; // Assurez-vous que cette ligne est correcte selon la structure de vos données
         console.log('Challenge count:', challenges);
@@ -17,19 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (error) {
       console.error('Failed to fetch challenge count:', error);
       res.status(500).json({ error: 'Failed to fetch challenge count' });
-    }
-  }  else if (req.method === 'POST') {
-    try {
-      const { name, description, photo, points, type } = req.body;
-      const newChallenge = { name, description, photo, points, type };
-
-      // Assurez-vous que votre fonction addChallenge gère correctement l'insertion et génère un nouvel ID.
-      const addedChallenge = await addChallenge(newChallenge);
-
-      res.status(201).json(addedChallenge);
-    } catch (error) {
-      console.error('Failed to add challenge:', error);
-      res.status(500).json({ error: 'Failed to add challenge' });
     }
   } else {
     res.status(405).json({ error: 'Method not allowed' });

@@ -7,12 +7,15 @@ import ExercisesPage from '../../components/ExercisesPage';
 import ChallengesPage from '../../components/ChallengesPage';
 import ReportsPage from '../../components/ReportPage';
 import CommentPage from '../../components/CommentPage';
+import UserDetailsPage from '@/components/UserDetail';
 
-type PageName = 'dashboard' | 'users' | 'exercises' | 'challenges' | 'reports' | 'comment';
+type PageName = 'dashboard' | 'users' | 'exercises' | 'challenges' | 'reports' | 'comment' | 'userDetail';
 
 const Dashboard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageName>('dashboard');
   const [commentId, setCommentId] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
+
 
   const handlePageChange = (pageName: PageName) => {
     setCurrentPage(pageName);
@@ -23,13 +26,19 @@ const Dashboard: React.FC = () => {
     handlePageChange('comment');
   };
 
+  const handleEditUser = (id: string) => {
+    setUserId(id);
+    handlePageChange('userDetail');
+  };
+
+
   let pageContent = null;
   switch (currentPage) {
     case 'dashboard':
       pageContent = <DashboardPage />;
       break;
     case 'users':
-      pageContent = <UsersPage />;
+      pageContent = <UsersPage onEdit={handleEditUser}  />;
       break;
     case 'exercises':
       pageContent = <ExercisesPage />;
@@ -42,6 +51,9 @@ const Dashboard: React.FC = () => {
       break;
     case 'comment':
       pageContent = <CommentPage commentId={commentId} />; // Passez commentId comme prop
+      break;
+    case 'userDetail':
+      pageContent = <UserDetailsPage userId={userId} />; // Passez commentId comme prop
       break;
     default:
       pageContent = <DashboardPage />;

@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const users= await getUsers();
       if (users) {
-        const count = users; // Assurez-vous que cette ligne est correcte selon la structure de vos données
+        const count = users; 
         console.log('User count:', users);
         res.status(200).json({ users });
       } else {

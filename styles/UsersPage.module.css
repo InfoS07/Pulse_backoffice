@@ -65,7 +65,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f9f9f9;
+    background-color: #969595;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -78,11 +78,13 @@
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
+    color: white; /* Couleur du texte */
+    background-color: #333333; /* Couleur de fond des champs */
+}
   
   .formContainer button {
     background-color: #4CAF50;
-    color: white;
+    color: rgb(179, 179, 179);
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -102,5 +104,104 @@
   .editIcon {
     width: 16px;
     height: 16px;
+  }
+  /* UsersPage.module.css */
+.container {
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .title {
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .addButton {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .addButton:hover {
+    background-color: darkblue;
+  }
+  
+  .form {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #202020;
+  }
+  
+  .formGroup {
+    margin-bottom: 15px;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .formGroup input, .formGroup textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white; /* Couleur du texte dans les champs */
+    background-color: #333333; /* Couleur de fond des champs */
+}
+  
+  .submitButton {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+  }
+  
+  .submitButton:hover {
+    background-color: darkgreen;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .centered {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .row {
+    transition: background-color 0.3s;
+  }
+  
+  .row:hover {
+    background-color: #f1f1f1;
   }
   
