@@ -84,13 +84,10 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ onEdit }) => {
               <td>{report.user_id}</td>
               <td>{report.reason}</td>
               <td>
-                <button className={styles.editButton} onClick={() => onEdit(report.comment_id)}>
-                  <img
-                    src="https://cdn.icon-icons.com/icons2/685/PNG/512/edit_icon-icons.com_61193.png"
-                    alt="Edit"
-                    className={`${styles.editIcon} ${styles.iconSize}`} // Ajoutez la classe iconSize
-                  />
-                </button>
+               
+                <button className={styles.button} onClick={() => onEdit(report.comment_id)}>
+                    <img src="https://cdn3.iconfinder.com/data/icons/information-notification-black/3/17-512.png" alt="Détail" style={{ width: '20px', height: '20px' }} />
+                  </button>
               </td>
             </tr>
           ))}

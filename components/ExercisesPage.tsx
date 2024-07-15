@@ -26,6 +26,16 @@ const ExercisesPage: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
+  // État local pour les valeurs du formulaire
+  const [formValues, setFormValues] = useState({
+    title: '',
+    description: '',
+    pod_count: '',
+    difficulty: '',
+    type: '',
+    photo: '',
+  });
+
   useEffect(() => {
     const fetchExercises = async () => {
       try {
@@ -65,23 +75,39 @@ const ExercisesPage: React.FC = () => {
     setShowForm(false);
   };
 
+  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFormValues(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
 
-    const newExercise = new FormData();
-    newExercise.append('title', (form.elements.namedItem('title') as HTMLInputElement).value);
-    newExercise.append('description', (form.elements.namedItem('description') as HTMLTextAreaElement).value);
-    newExercise.append('pod_count', (form.elements.namedItem('pod_count') as HTMLInputElement).value);
-    newExercise.append('difficulty', (form.elements.namedItem('difficulty') as HTMLInputElement).value);
-    newExercise.append('type', (form.elements.namedItem('type') as HTMLInputElement).value);
-    newExercise.append('photo', (form.elements.namedItem('photo') as HTMLInputElement).value);
-    
+    const newExercise = {
+      title: formValues.title,
+      description: formValues.description,
+      pod_count: formValues.pod_count,
+      difficulty: formValues.difficulty,
+      type: formValues.type,
+      photo: formValues.photo,
+    };
+
     try {
       const response = await axios.post('/api/exercises', newExercise);
       setExercises([...exercises, response.data]);
       setFilteredExercises([...filteredExercises, response.data]);
       setShowForm(false);
+      setFormValues({
+        title: '',
+        description: '',
+        pod_count: '',
+        difficulty: '',
+        type: '',
+        photo: '',
+      }); // Réinitialiser les valeurs du formulaire
     } catch (error) {
       console.error('Failed to add exercise:', error);
     }
@@ -113,27 +139,67 @@ const ExercisesPage: React.FC = () => {
           <form className={styles.form} onSubmit={handleFormSubmit}>
             <div className={styles.formGroup}>
               <label htmlFor="title">Titre</label>
-              <input type="text" id="title" name="title" required />
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formValues.title}
+                onChange={handleFormChange}
+                required
+              />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="description">Description</label>
-              <textarea id="description" name="description" required></textarea>
+              <textarea
+                id="description"
+                name="description"
+                value={formValues.description}
+                onChange={handleFormChange}
+                required
+              ></textarea>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="pod_count">Nombre de Pods</label>
-              <input type="number" id="pod_count" name="pod_count" required />
+              <input
+                type="number"
+                id="pod_count"
+                name="pod_count"
+                value={formValues.pod_count}
+                onChange={handleFormChange}
+                required
+              />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="difficulty">Difficulté</label>
-              <input type="text" id="difficulty" name="difficulty" required />
+              <input
+                type="text"
+                id="difficulty"
+                name="difficulty"
+                value={formValues.difficulty}
+                onChange={handleFormChange}
+                required
+              />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="type">Type</label>
-              <input type="text" id="type" name="type" required />
+              <input
+                type="text"
+                id="type"
+                name="type"
+                value={formValues.type}
+                onChange={handleFormChange}
+                required
+              />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="photo">Photo</label>
-              <input type="text" id="photo" name="photo"/>
+              <input
+                type="text"
+                id="photo"
+                name="photo"
+                value={formValues.photo}
+                onChange={handleFormChange}
+              />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={`${styles.button} ${styles.red}`} onClick={handleCancelClick}>

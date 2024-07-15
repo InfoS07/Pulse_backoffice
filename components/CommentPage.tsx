@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import styles from '../styles/DarkTheme.module.css';
 
 interface CommentPageProps {
@@ -18,6 +19,7 @@ const CommentPage: React.FC<CommentPageProps> = ({ commentId }) => {
   const [comment, setComment] = useState<Comment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // Hook pour naviguer
 
   useEffect(() => {
     const fetchComment = async () => {
@@ -46,10 +48,11 @@ const CommentPage: React.FC<CommentPageProps> = ({ commentId }) => {
   const handleDeleteComment = async () => {
     if (comment) {
       try {
-        const response = await axios.delete(`/api/comment/${comment.id}`);
+        const response = await axios.delete(`/api/comment/${commentId}`);
         console.log('Suppression réussie:', response.data);
         // Réinitialiser l'état du commentaire après la suppression
         setComment(null);
+        navigate('/report-page'); // Redirection vers ReportPage
       } catch (error) {
         console.error('Échec de la suppression du commentaire:', error);
         setError('Échec de la suppression du commentaire');
@@ -60,10 +63,11 @@ const CommentPage: React.FC<CommentPageProps> = ({ commentId }) => {
   const handleDeleteReport = async () => {
     if (comment) {
       try {
-        const response = await axios.delete(`/api/report/${comment.id}`);
+        const response = await axios.delete(`/api/report/${commentId}`);
         console.log('Suppression réussie:', response.data);
         // Réinitialiser l'état du commentaire après la suppression
         setComment(null);
+        navigate('/report-page'); // Redirection vers ReportPage
       } catch (error) {
         console.error('Échec de la suppression du report:', error);
         setError('Échec de la suppression du report');
