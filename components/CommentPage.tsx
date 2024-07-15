@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import styles from '../styles/DarkTheme.module.css';
 
 interface CommentPageProps {
   commentId: string | null;
@@ -43,9 +44,9 @@ const CommentPage: React.FC<CommentPageProps> = ({ commentId }) => {
   }, [commentId]);
 
   const handleDeleteComment = async () => {
-    if (comment && comment.comment.id) {
+    if (comment) {
       try {
-        const response = await axios.delete(`/api/comment/${comment.comment.id}`);
+        const response = await axios.delete(`/api/comment/${comment.id}`);
         console.log('Suppression réussie:', response.data);
         // Réinitialiser l'état du commentaire après la suppression
         setComment(null);
@@ -56,11 +57,10 @@ const CommentPage: React.FC<CommentPageProps> = ({ commentId }) => {
     }
   };
 
-
   const handleDeleteReport = async () => {
-    if (comment && comment.comment.id) {
+    if (comment) {
       try {
-        const response = await axios.delete(`/api/report/${comment.comment.id}`);
+        const response = await axios.delete(`/api/report/${comment.id}`);
         console.log('Suppression réussie:', response.data);
         // Réinitialiser l'état du commentaire après la suppression
         setComment(null);
@@ -72,23 +72,39 @@ const CommentPage: React.FC<CommentPageProps> = ({ commentId }) => {
   };
 
   return (
-    <div>
-      <h1>Détails du Commentaire {comment?.id}</h1>
-      {loading && <p>Chargement en cours...</p>}
-      {error && <p>Erreur: {error}</p>}
+    <div className={styles.container}>
+      <h1 className={styles.title}>Détails du Commentaire {comment?.id}</h1>
+      {loading && <p className={styles.centered}>Chargement en cours...</p>}
+      {error && <p className={styles.centered}>Erreur: {error}</p>}
       {comment && (
-        <div>
-          <p><strong>ID:</strong> {comment.comment.id}</p>
-          <p><strong>Contenu:</strong> {comment.comment.content}</p>
-          <p><strong>Créé le:</strong> {new Date(comment.comment.created_at).toLocaleString()}</p>
-          <p><strong>Utilisateur ID:</strong> {comment.comment.user_id}</p>
+        <div className={styles.commentDetails}>
+          <table className={styles.commentTable}>
+            <tbody>
+              <tr>
+                <td><strong>ID:</strong></td>
+                <td>{comment.comment.id}</td>
+              </tr>
+              <tr>
+                <td><strong>Contenu:</strong></td>
+                <td>{comment.comment.content}</td>
+              </tr>
+              <tr>
+                <td><strong>Créé le:</strong></td>
+                <td>{new Date(comment.comment.created_at).toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td><strong>Utilisateur ID:</strong></td>
+                <td>{comment.comment.user_id}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       )}
-      {!loading && !comment && <p>Aucun commentaire à afficher pour l'ID sélectionné.</p>}
+      {!loading && !comment && <p className={styles.centered}>Aucun commentaire à afficher pour l'ID sélectionné.</p>}
 
-      <div style={{ marginTop: '20px' }}>
-        <button style={{ backgroundColor: 'blue', color: 'white', marginRight: '10px' }}onClick={handleDeleteReport} >Laisser</button>
-        <button style={{ backgroundColor: 'red', color: 'white' }} onClick={handleDeleteComment}>Supprimer</button>
+      <div className={styles.buttonContainer}>
+        <button className={`${styles.button} ${styles.green}`} onClick={handleDeleteReport}>Laisser</button>
+        <button className={`${styles.button} ${styles.red}`} onClick={handleDeleteComment}>Supprimer</button>
       </div>
     </div>
   );

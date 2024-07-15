@@ -8,6 +8,7 @@ interface Report {
   created_at: string;
   user_id: string;
   reason: string;
+  content:string
 }
 
 interface ReportsPageProps {
@@ -40,7 +41,8 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ onEdit }) => {
   }, []);
 
   const filteredReports = reports.filter(report =>
-    report.comment_id.toLowerCase().includes(searchTerm.toLowerCase())
+    //report.comment_id(searchTerm.toLowerCase())
+    true
   );
 
   if (loading) {
@@ -67,8 +69,7 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ onEdit }) => {
       <table className={styles.table}>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Commentaire</th>
+            <th>ID Commentaire</th>
             <th>Date de Création</th>
             <th>Utilisateur</th>
             <th>Raison</th>
@@ -78,14 +79,17 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ onEdit }) => {
         <tbody>
           {filteredReports.map((report) => (
             <tr key={report.id} className={styles.row}>
-              <td>{report.id}</td>
               <td>{report.comment_id}</td>
               <td>{new Date(report.created_at).toLocaleDateString()}</td>
               <td>{report.user_id}</td>
               <td>{report.reason}</td>
               <td>
                 <button className={styles.editButton} onClick={() => onEdit(report.comment_id)}>
-                  <img src="https://cdn.icon-icons.com/icons2/685/PNG/512/edit_icon-icons.com_61193.png" alt="Edit" className={styles.editIcon} />
+                  <img
+                    src="https://cdn.icon-icons.com/icons2/685/PNG/512/edit_icon-icons.com_61193.png"
+                    alt="Edit"
+                    className={`${styles.editIcon} ${styles.iconSize}`} // Ajoutez la classe iconSize
+                  />
                 </button>
               </td>
             </tr>

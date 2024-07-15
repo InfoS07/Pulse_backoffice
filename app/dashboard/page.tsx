@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
     <div className="flex h-screen w-screen bg-black text-white">
       <div className="w-1/6 bg-gray-900 p-6 flex flex-col justify-between">
         <div>
-          <h2 className="text-xl font-bold mb-4">Ca pulse ici ou quoi</h2>
+          <h2 className="text-xl font-bold mb-4">Bienvenue sur Pulse</h2>
           <ul className="space-y-2">
             <li>
               <button

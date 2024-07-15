@@ -132,6 +132,41 @@ const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId }) => {
     fetchUserJoinedChallenges();
   }, [user]);
 
+  const renderUserTable = () => (
+    <table className={styles.table}>
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <td>{user?.user.id}</td>
+        </tr>
+        <tr>
+          <th>Photo</th>
+          <td><img src={user?.user.profile_photo} width="50" height="50" alt="Profile" /></td>
+        </tr>
+        <tr>
+          <th>Nom</th>
+          <td>{user?.user.last_name}</td>
+        </tr>
+        <tr>
+          <th>Prénom</th>
+          <td>{user?.user.first_name}</td>
+        </tr>
+        <tr>
+          <th>Pseudo</th>
+          <td>{user?.user.username}</td>
+        </tr>
+        <tr>
+          <th>Mail</th>
+          <td>{user?.user.email}</td>
+        </tr>
+        <tr>
+          <th>UID</th>
+          <td>{user?.user.uid}</td>
+        </tr>
+      </tbody>
+    </table>
+  );
+
   const renderTrainingsTable = () => (
     <table className={styles.table}>
       <thead>
@@ -187,40 +222,33 @@ const UserDetailsPage: React.FC<UserDetailsPageProps> = ({ userId }) => {
   return (
     <div>
       <h1 className={styles.mainTitle}>Details de l'utilisateur</h1>
-    <div className={styles.container}>
-      {loading && <p>Chargement en cours...</p>}
-      {error && <p>Erreur: {error}</p>}
+      <div className={styles.container}>
+        {loading && <p>Chargement en cours...</p>}
+        {error && <p>Erreur: {error}</p>}
+        
+        {user && (
+          <div className={styles.profileCard}>
+            {renderUserTable()}
+          </div>
+        )}
+        {!loading && !user && <p>Aucun utilisateur à afficher pour l'ID sélectionné.</p>}
 
-      {user && (
-        <div className={styles.profileCard}>
-          <p><strong>ID:</strong> {user.user.id}</p>
-          <p><strong>Photo:</strong> <img src={user.user.profile_photo} width="50" height="50" alt="Profile" /></p>
-          <p><strong>Nom:</strong> {user.user.last_name}</p>
-          <p><strong>Prénom:</strong> {user.user.first_name}</p>
-          <p><strong>Pseudo:</strong> {user.user.username}</p>
-          <p><strong>Mail:</strong> {user.user.email}</p>
-          <p><strong>UID:</strong> {user.user.uid}</p>
+        <div className={styles.tableContainer}>
+          <h2>Trainings</h2>
+          {trainings.length > 0 ? renderTrainingsTable() : <p>Aucune formation à afficher.</p>}
         </div>
-      )}
-      {!loading && !user && <p>Aucun utilisateur à afficher pour l'ID sélectionné.</p>}
 
-      <div className={styles.tableContainer}>
-        <h2>Trainings</h2>
-        {trainings.length > 0 ? renderTrainingsTable() : <p>Aucune formation à afficher.</p>}
-      </div>
+        <div className={styles.tableContainer}>
+          <h2>Défis créés</h2>
+          {createdChallenges.length > 0 ? renderChallengesTable(createdChallenges) : <p>Aucun défi à afficher.</p>}
+        </div>
 
-      <div className={styles.tableContainer}>
-        <h2>Défis créés</h2>
-        {createdChallenges.length > 0 ? renderChallengesTable(createdChallenges) : <p>Aucun défi à afficher.</p>}
-      </div>
-
-      <div className={styles.tableContainer}>
-        <h2>Défis auxquels il participe</h2>
-        {joinedChallenges.length > 0 ? renderChallengesTable(joinedChallenges) : <p>Il ne participe à aucun défi.</p>}
+        <div className={styles.tableContainer}>
+          <h2>Défis auxquels il participe</h2>
+          {joinedChallenges.length > 0 ? renderChallengesTable(joinedChallenges) : <p>Il ne participe à aucun défi.</p>}
+        </div>
       </div>
     </div>
-    </div>
-
   );
 };
 

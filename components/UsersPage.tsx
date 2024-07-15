@@ -18,6 +18,7 @@ interface User {
 interface ApiResponse {
   users: User[];
 }
+
 interface UsersPageProps {
   onEdit: (userId: string) => void;
 }
@@ -55,7 +56,8 @@ const UsersPage: React.FC<UsersPageProps> = ({ onEdit }) => {
 
   useEffect(() => {
     const results = users.filter(user =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+      user.uid.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.first_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredUsers(results);
   }, [searchTerm, users]);
@@ -89,14 +91,11 @@ const UsersPage: React.FC<UsersPageProps> = ({ onEdit }) => {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Nom</th>
               <th>Prénom</th>
               <th>Photo de Profil</th>
               <th>Date de Création</th>
               <th>Nom d'utilisateur</th>
-              <th>Email</th>
-              <th>Date de Naissance</th>
               <th>UID</th>
               <th>Pièces</th>
               <th>Détail</th>
@@ -105,7 +104,6 @@ const UsersPage: React.FC<UsersPageProps> = ({ onEdit }) => {
           <tbody>
             {filteredUsers.map((user) => (
               <tr key={user.id} className={styles.row}>
-                <td>{user.id}</td>
                 <td>{user.last_name}</td>
                 <td>{user.first_name}</td>
                 <td>
@@ -117,14 +115,12 @@ const UsersPage: React.FC<UsersPageProps> = ({ onEdit }) => {
                 </td>
                 <td>{new Date(user.created_at).toLocaleDateString()}</td>
                 <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{new Date(user.birth_date).toLocaleDateString()}</td>
                 <td>{user.uid}</td>
                 <td>{user.coins}</td>
                 <td>
-                <button className={styles.button} onClick={() => onEdit(user.id.toString())}>
-                  <img src="https://cdn3.iconfinder.com/data/icons/information-notification-black/3/17-512.png" alt="Détail" style={{ width: '20px', height: '20px' }} />
-                </button>
+                  <button className={styles.button} onClick={() => onEdit(user.id.toString())}>
+                    <img src="https://cdn3.iconfinder.com/data/icons/information-notification-black/3/17-512.png" alt="Détail" style={{ width: '20px', height: '20px' }} />
+                  </button>
                 </td>
               </tr>
             ))}

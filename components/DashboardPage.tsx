@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 interface Training {
   id: number;
@@ -83,23 +92,37 @@ const DashboardPage = () => {
     <div style={{ textAlign: 'center', padding: '20px' }}>
       <h1 style={{ fontSize: '4em', marginBottom: '20px' }}>PULSE</h1>
       <h1>Bienvenue !</h1>
-      <div style={{ margin: '20px 0' }}>
-        <h1>Nombre d'utilisateur: {userCount}</h1>
-        <h1>Nombre de trainings disponibles: {trainingCount}</h1>
-      </div>
 
-      <div>
-        <h2>Activités</h2>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="entrainements" stroke="#8884d8" activeDot={{ r: 8 }} />
-          </LineChart>
-        </ResponsiveContainer>
+      <div style={{ margin: '20px 0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ width: '100%', maxWidth: '600px', marginBottom: '20px' }}>
+          <h2>Informations Générales</h2>
+          <table style={{ width: '100%', border: '1px solid #ccc', borderRadius: '5px', textAlign: 'left' }}>
+            <tbody>
+              <tr>
+                <td style={{ padding: '10px' }}>Nombre d'utilisateurs</td>
+                <td style={{ padding: '10px', textAlign: 'right' }}>{userCount}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px' }}>Nombre de trainings disponibles</td>
+                <td style={{ padding: '10px', textAlign: 'right' }}>{trainingCount}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{ width: '100%', maxWidth: '800px' }}>
+          <h2>Activité</h2>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="entrainements" stroke="#8884d8" activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
