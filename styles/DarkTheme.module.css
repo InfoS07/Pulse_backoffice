@@ -3,6 +3,8 @@
   padding: 20px;
   background-color: #1c1c1e;
   color: #fff;
+  border-radius: 10px;
+
 }
 
 .header {
@@ -14,12 +16,24 @@
 
 /* DarkTheme.module.css */
 .container {
-  overflow-x: auto; /* Permettre le défilement horizontal si le tableau est trop large */
+  overflow-x: auto; 
+  border-radius: 10px;
+  /* Permettre le défilement horizontal si le tableau est trop large */
 }
+
+
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  margin: 20px 0;
+   /* Ajout de border-radius pour arrondir les bords */
+}
+
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+
 }
 
 .row {
@@ -31,6 +45,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+
 }
 
 .searchBar {
@@ -80,32 +95,34 @@
   color: #fff;
 }
 
-.table {
-  width: 100%;
-  border-collapse: collapse;
-}
 
 .table th, .table td {
   padding: 12px 15px;
   border: 1px solid #333;
+
 }
 
 .table th {
   background-color: #2c2c2e;
   color: #fff;
   text-align: left;
+
 }
 
 .table td {
   background-color: #1c1c1e;
+  border-radius: 10px;
+
 }
 
 .table .row:nth-child(even) {
   background-color: #2c2c2e;
+
 }
 
 .table .row:hover {
   background-color: #3a3a3c;
+
 }
 
 .centered {
@@ -174,7 +191,7 @@
 
 .container {
   padding: 20px;
-  background-color: #1c1c1e;
+  background-color: #1f1e1e;
   color: #fff;
   border-radius: 8px;
 
@@ -193,16 +210,21 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  border-radius: 10px;
 }
 
 .commentTable td {
   padding: 8px;
   border: 1px solid #333;
+  border-radius: 10px;
+
 }
 
 .commentTable td:first-child {
   width: 30%;
   font-weight: bold;
+  border-radius: 10px;
+
 }
 
 .centered {
@@ -248,12 +270,10 @@
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  border-radius: 10px;
+
 }
 
-.table th, .table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
 
 
 
@@ -264,6 +284,8 @@
 .tableContainer {
   margin-top: 40px; /* Augmentez cette valeur pour plus d'espace */
   margin-bottom: 40px; /* Ajout d'espace en bas du tableau */
+  border-radius: 10px;
+
 }
 
 .mainTitle {
@@ -273,8 +295,15 @@
 
 .container {
   padding: 20px;
+  border-radius: 10px;
+
 }
 
 .centered {
   text-align: center;
+}
+
+.table {
+  border-radius: 8px; /* Vous pouvez ajuster la valeur du border-radius selon vos préférences */
+  /* Autres styles CSS pour votre tableau ici */
 }

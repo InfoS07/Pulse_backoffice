@@ -73,7 +73,7 @@ const ReportsPage: React.FC<ReportsPageProps> = ({ onEdit }) => {
             <th>Date de Création</th>
             <th>Utilisateur</th>
             <th>Raison</th>
-            <th>Action</th>
+            <th>Détail</th>
           </tr>
         </thead>
         <tbody>
